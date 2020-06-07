@@ -1,20 +1,21 @@
 <script>
   import Container from "sveltestrap/src/Container.svelte";
 
-  import Navbar from "../../components/Navbar.svelte";
-  import Sidebar from "../../components/Sidebar.svelte";
-  import Footer from "../../components/Footer.svelte";
+  import Navbar from "../../components/dashboard/Navbar.svelte";
+  import Sidebar from "../../components/dashboard/Sidebar.svelte";
+  import Footer from "../../components/dashboard/Footer.svelte";
+  import { fr, en } from '../../../lang/translation';
+  import { _ , locale, dictionary } from 'svelte-i18n';
+
+	dictionary.set(fr);
+  locale.set('fr');
 
   export let segment;
 
-  let theme = "dark";
+  let theme = "light";
   let color = "dark";
-  let title = "SB Admin Svelte";
+  let title = $_('app'.title);
 </script>
-
-<svelte:head>
-  <title>{title}</title>
-</svelte:head>
 
 {#if segment !== 'pages'}
   <div class="sb-nav-fixed">

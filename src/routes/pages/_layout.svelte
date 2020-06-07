@@ -2,7 +2,7 @@
   import Row from "sveltestrap/src/Row.svelte";
   import Container from "sveltestrap/src/Container.svelte";
 
-  import Footer from "../../components/Footer.svelte";
+  import Footer from "../../components/dashboard/Footer.svelte";
 
   export let segment;
 </script>

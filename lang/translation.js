@@ -24,7 +24,22 @@ export const fr =
         },
         dashboard:
         {
-            title: "Tableau de bord"
+            title: "Tableau de bord",
+            sidebar:
+            {
+                interface: "Interface",
+                posts: "Publications",
+                theme:
+                {
+                    dark:"Sombre",
+                    light:"Clair"
+                }
+            },
+            post:
+            {
+                add: "Ecrire un nouvel article",
+                list: "Voir tous les articles"
+            }
         }
     }
 }

@@ -1,5 +1,5 @@
 <script>
-console.log('layout')
+//console.log('layout')
 </script>
 
 <slot />

@@ -28,7 +28,7 @@
 		<section>
 			<ul class="actions stacked">
 				<li>
-					<a href="/authentication/login" class="button large fit">
+					<a href="/connexion/authentication/login" class="button large fit">
 						{$_('navbar').connexion}
 					</a>
 				</li>

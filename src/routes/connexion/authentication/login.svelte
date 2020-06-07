@@ -47,7 +47,7 @@
           <a class="small" href="pages/authentication/forget_password">
             Forgot Password?
           </a>
-          <Button color="primary" href=".">Login</Button>
+          <Button color="primary" href="dashboard">Login</Button>
         </FormGroup>
       </Form>
     </CardBody>

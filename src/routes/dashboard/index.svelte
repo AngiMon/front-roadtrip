@@ -8,54 +8,22 @@
   import CardSubtitle from "sveltestrap/src/CardSubtitle.svelte";
   import Row from "sveltestrap/src/Row.svelte";
 
-  import DashboardCard from "../../components/DashboardCard.svelte";
-  import CustomCard from "../../components/CustomCard.svelte";
-  import Table from "../../components/Table.svelte";
+  import DashboardCard from "../../components/dashboard/DashboardCard.svelte";
+  import CustomCard from "../../components/dashboard/CustomCard.svelte";
+  import Table from "../../components/dashboard/Table.svelte";
   import AreaChart from "../../components/Charts/AreaChart.svelte";
   import BarChart from "../../components/Charts/BarChart.svelte";
-  import { fr, en } from '../../../lang/translation';
-	import { _ , locale, dictionary } from 'svelte-i18n';
+	import { _ } from 'svelte-i18n';
 
-	dictionary.set(fr);
-    locale.set('fr');
-    
-
-  let title = "SB Admin Svelte";
 </script>
 
 <svelte:head>
-  <title>{title}</title>
+  <title>{$_('dashboard').title}</title>
 </svelte:head>
 <h1 class="mt-4">{$_('dashboard').title}</h1>
 <Breadcrumb class="mb-4">
-  <BreadcrumbItem active>Dashboard</BreadcrumbItem>
+  <BreadcrumbItem active>{$_('dashboard').title}</BreadcrumbItem>
 </Breadcrumb>
-<Row>
-  <div class="col-xl-3 col-md-6">
-    <DashboardCard cardTitle="Primary Card" cardColor="primary" />
-  </div>
-  <div class="col-xl-3 col-md-6">
-    <DashboardCard cardTitle="Warning Card" cardColor="warning" />
-  </div>
-  <div class="col-xl-3 col-md-6">
-    <DashboardCard cardTitle="Success Card" cardColor="success" />
-  </div>
-  <div class="col-xl-3 col-md-6">
-    <DashboardCard cardTitle="Danger Card" cardColor="danger" />
-  </div>
-</Row>
-<Row>
-  <div class="col-xl-6">
-    <CustomCard cardTitle="Area Chart Example" cardIcon="fas fa-chart-area">
-      <AreaChart />
-    </CustomCard>
-  </div>
-  <div class="col-xl-6">
-    <CustomCard cardTitle="Bar Chart Example" cardIcon="fas fa-chart-bar">
-      <BarChart />
-    </CustomCard>
-  </div>
-</Row>
 <CustomCard cardTitle="DataTable Example" cardIcon="fas fa-table">
   <Table />
 </CustomCard>
