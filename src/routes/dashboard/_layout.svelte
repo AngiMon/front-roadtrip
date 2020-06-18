@@ -14,8 +14,9 @@
 
   let theme = "light";
   let color = "dark";
-  let title = $_('app'.title);
+  let title = $_('app').title;
 </script>
+
 
 {#if segment !== 'pages'}
   <div class="sb-nav-fixed">

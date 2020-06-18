@@ -8,7 +8,9 @@ export const fr =
         },
         navbar:
         {
-            connexion: "Se connecter"
+            login: "Connexion",
+            logout: "Déconnexion",
+            menu: "Menu"
         },
         sidebar:
         {

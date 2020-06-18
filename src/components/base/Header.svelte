@@ -3,14 +3,14 @@
 </script>
 
 <header id="header">
-    <h1><a href="toto">{ $_("app").title }</a></h1>
+    <h1><a href="/">{ $_("app").title }</a></h1>
     <nav class="links">
         <ul>
-            <li><a href="toto">Lorem</a></li>
-            <li><a href="toto">Ipsum</a></li>
-            <li><a href="toto">Feugiat</a></li>
-            <li><a href="toto">Tempus</a></li>
-            <li><a href="toto">Adipiscing</a></li>
+            <!-- <li>
+                <a href="/">
+                    Adipiscing
+                </a>
+            </li> -->
         </ul>
     </nav>
     <nav class="main">
@@ -22,7 +22,9 @@
                 </form>
             </li>
             <li class="menu">
-                <a class="fa-bars" href="#menu">Menu</a>
+                <a class="fa-bars" href="#menu">
+                    {$_('navbar').menu}
+                </a>
             </li>
         </ul>
     </nav>

@@ -6,14 +6,14 @@
 <section id="menu">
 
 	<!-- Search -->
-		<section>
+		<!-- <section>
 			<form class="search" method="get" action="#">
 				<input type="text" name="query" placeholder="Search" />
 			</form>
-		</section>
+		</section> -->
 
 	<!-- Links -->
-		<section>
+		<!-- <section>
 			<ul class="links">
 				<li>
 					<a href="toto">
@@ -22,14 +22,14 @@
 					</a>
 				</li>
 			</ul>
-		</section>
+		</section> -->
 
 	<!-- Actions -->
 		<section>
 			<ul class="actions stacked">
 				<li>
 					<a href="/connexion/authentication/login" class="button large fit">
-						{$_('navbar').connexion}
+						{$_('navbar').login}
 					</a>
 				</li>
 			</ul>
