@@ -1,8 +1,8 @@
 {
   "background_color": "#ffffff",
   "theme_color": "#333333",
-  "name": "SB_Admin_Svelte",
-  "short_name": "SB_Admin_Svelte",
+  "name": "Roadtrip",
+  "short_name": "Roadtrip",
   "display": "minimal-ui",
   "start_url": "/",
   "icons": [

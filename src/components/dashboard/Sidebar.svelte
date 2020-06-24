@@ -6,11 +6,10 @@
 
   export let segment;
   export let theme;
-  export let color;
-  console.log(segment);
-
+  
   $: sidenav_theme = `sb-sidenav-${theme}`;
 
+  let color;
   let isLayoutOpen = false;
   let isPostsOpen = false;
   let isAuthenticationOpen = false;
@@ -31,15 +30,6 @@
     (isLayoutOpen === true) ? isLayoutOpen = false : isLayoutOpen = true;
   };
 
-  // const toggleAuthentication = () => {
-  //   isAuthenticationOpen = !isAuthenticationOpen;
-  //   if (isErrorOpen === true) isErrorOpen = false;
-  // };
-
-  // const toggleError = () => {
-  //   isErrorOpen = !isErrorOpen;
-  //   if (isAuthenticationOpen === true) isAuthenticationOpen = false;
-  // };
 </script>
 
 <div id="layoutSidenav_nav" class="sb-nav-fixed">
@@ -69,15 +59,15 @@
               on:press={() => {
                 updateActiveLink($_('dashboard').post.add);
               }}
-              class={segment === $_('dashboard').post.add && activeLink === $_('dashboard').post.add ? 'active' : ''}
+              class={activeLink === $_('dashboard').post.add ? 'active' : ''}
               href="dashboard/post/add"
               text="{$_('dashboard').post.add}" />
             <SidebarItem
               on:press={() => {
                 updateActiveLink($_('dashboard').post.list);
               }}
-              class={segment === $_('dashboard').post.list && activeLink === $_('dashboard').post.list ? 'active' : ''}
-              href="dashboard/posts/list"
+              class={activeLink === $_('dashboard').post.list ? 'active' : ''}
+              href="dashboard/post/list"
               text="{$_('dashboard').post.list}" />
           </Nav>
         </Collapse>
@@ -98,7 +88,6 @@
             <SidebarItem
               on:press={() => {
                 theme = 'dark';
-                updateActiveLink('Static Navigation');
                 updateTheme(theme);
               }}
               class={segment === 'layouts' && activeLink === 'Static Navigation' ? 'active' : ''}
@@ -106,7 +95,6 @@
             <SidebarItem
               on:press={() => {
                 theme = 'light';
-                updateActiveLink('Light Sidenav');
                 updateTheme(theme);
               }}
               class={segment === 'layouts' && activeLink === 'Light Sidenav' ? 'active' : ''}
