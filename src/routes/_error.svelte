@@ -1,41 +1,24 @@
 <script>
+	import '../../static/fontawesome-all.min.css';
+	import '../../static/main.css';
+	import { _ } from 'svelte-i18n';
 	export let status;
-	export let error;
 
-	const dev = process.env.NODE_ENV === 'development';
-	console.log('error template');
+const dev = process.env.NODE_ENV === 'development';
 </script>
 
-<style>
-	h1, p {
-		margin: 0 auto;
-	}
+<sapper:head>
+	<title>{$_('app').error[status].title}</title>
+</sapper:head>
 
-	h1 {
-		font-size: 2.8em;
-		font-weight: 700;
-		margin: 0 0 0.5em 0;
-	}
-
-	p {
-		margin: 1em auto;
-	}
-
-	@media (min-width: 480px) {
-		h1 {
-			font-size: 4em;
-		}
-	}
-</style>
-
-<svelte:head>
-	<title>{status}</title>
-</svelte:head>
-
-<h1>{status}</h1>
-
-<p>{error.message}</p>
-
-{#if dev && error.stack}
-	<pre>{error.stack}</pre>
-{/if}
+<div id="notfound">
+	<div class="notfound">
+		<div class="notfound-404">
+			<div></div>
+			<h1>{status}</h1>
+		</div>
+		<h2>{$_('app').error[status].message}</h2>
+		<p>{$_('app').error[status].details}</p>
+		<a class="button large" href=".">{$_('app').error.goToHome}</a>
+	</div>
+</div>

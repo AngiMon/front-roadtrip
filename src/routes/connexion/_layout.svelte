@@ -4,13 +4,10 @@
   import Container from "sveltestrap/src/Container.svelte";
   import Footer from "../../components/dashboard/Footer.svelte";
   export let segment;
-
-  console.log('layout login');
-  console.log('segment = ' + segment);
 </script>
 
 {#if segment === 'authentication'}
-  <div id="layoutAuthentication" class="bg-primary">
+  <div id="layoutAuthentication">
     <div id="layoutAuthentication_content">
       <main>
         <Container>

@@ -7,9 +7,9 @@
   import CardFooter from "sveltestrap/src/CardFooter.svelte";
   import Row from "sveltestrap/src/Row.svelte";
 
-  import AreaChart from "../../components/Charts/AreaChart.svelte";
-  import BarChart from "../../components/Charts/BarChart.svelte";
-  import PieChart from "../../components/Charts/PieChart.svelte";
+  import AreaChart from "../../../components/Charts/AreaChart.svelte";
+  import BarChart from "../../../components/Charts/BarChart.svelte";
+  import PieChart from "../../../components/Charts/PieChart.svelte";
 
   let cardFooterText = "Updated yesterday at 11:59 PM";
   let areaCardTitle = "Area Chart Example";

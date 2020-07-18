@@ -6,6 +6,7 @@ import babel from 'rollup-plugin-babel';
 import { terser } from 'rollup-plugin-terser';
 import config from 'sapper/config/rollup.js';
 import pkg from './package.json';
+import { scss } from 'svelte-preprocess';
 
 const mode = process.env.NODE_ENV;
 const dev = mode === 'development';
@@ -18,6 +19,7 @@ export default {
 		input: config.client.input(),
 		output: config.client.output(),
 		plugins: [
+			//scss({output: true}), // will output compiled styles to output.css
 			replace({
 				'process.browser': true,
 				'process.env.NODE_ENV': JSON.stringify(mode)
@@ -25,7 +27,11 @@ export default {
 			svelte({
 				dev,
 				hydratable: true,
-				emitCss: true
+				emitCss: true,
+
+				preprocess: [
+					scss({  /** options */ })
+				]
 			}),
 			resolve({
 				browser: true,

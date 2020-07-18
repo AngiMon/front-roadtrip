@@ -3,7 +3,7 @@
   import CardBody from "sveltestrap/src/CardBody.svelte";
   import CardHeader from "sveltestrap/src/CardHeader.svelte";
   import Progress from "sveltestrap/src/Progress.svelte";
-  import AreaChart from "../../components/Charts/AreaChart.svelte";
+  import AreaChart from "../../../components/Charts/AreaChart.svelte";
 </script>
 
 <div class="col-lg-12 mx-auto my-3">

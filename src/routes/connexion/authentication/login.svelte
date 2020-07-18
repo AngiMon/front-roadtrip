@@ -9,17 +9,22 @@
   import Input from "sveltestrap/src/Input.svelte";
   import CustomInput from "sveltestrap/src/CustomInput.svelte";
   import Button from "sveltestrap/src/Button.svelte";
+  import { _ } from 'svelte-i18n';	
 </script>
+
+<sapper:head>
+  <title>{$_('connexion').title}</title>
+</sapper:head>
 
 <div class="col-lg-5">
   <Card class="shadow-lg border-0 rounded-lg mt-5">
     <CardHeader>
-      <h3 class="text-center font-weight-light my-4">Login</h3>
+      <h3 class="text-center font-weight-light my-4">{$_('connexion').login.title}</h3>
     </CardHeader>
     <CardBody>
       <Form>
         <FormGroup>
-          <Label for="exampleEmail" class="small mb-1">Email</Label>
+          <Label for="exampleEmail" class="small mb-1">{$_('connexion').form.email}</Label>
           <Input
             class="py-4"
             type="email"
@@ -28,7 +33,7 @@
             placeholder="Enter email address" />
         </FormGroup>
         <FormGroup>
-          <Label for="examplePassword" class="small mb-1">Password</Label>
+          <Label for="examplePassword" class="small mb-1">{$_('connexion').form.password}</Label>
           <Input
             class="py-4"
             type="password"
@@ -36,23 +41,23 @@
             id="examplePassword"
             placeholder="Enter password" />
         </FormGroup>
-        <FormGroup>
+        <!-- <FormGroup>
           <CustomInput
             type="checkbox"
             id="exampleCustomCheckbox"
             label="Remember password" />
-        </FormGroup>
+        </FormGroup> -->
         <FormGroup
           class="d-flex align-items-center justify-content-between mt-4 mb-0">
-          <a class="small" href="pages/authentication/forget_password">
-            Forgot Password?
+          <a class="small" href="connexion/authentication/forget_password">
+            {$_('connexion').forgotten_password}
           </a>
-          <Button color="primary" href="dashboard">Login</Button>
+          <a class="large button" href="admin/dashboard">{$_('connexion').login.submit}</a>
         </FormGroup>
       </Form>
     </CardBody>
     <CardFooter class="text-center small">
-      <a href="pages/authentication/register">Need an account? Sign up!</a>
+      <a href="connexion/authentication/register">{$_('connexion').need_account}</a>
     </CardFooter>
   </Card>
 </div>

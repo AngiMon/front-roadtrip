@@ -39,11 +39,9 @@
           <i class="fas fa-user fa-fw ml-3" />
         </DropdownToggle>
         <DropdownMenu right>
-          <DropdownItem>
-            <a class="dropdown-item" href="connexion/authentication/logout">
+            <a class="dropdown-item db-link" href="connexion/authentication/logout">
               {$_('navbar').logout}
             </a>
-          </DropdownItem>
         </DropdownMenu>
       </UncontrolledDropdown>
     </ListGroup>

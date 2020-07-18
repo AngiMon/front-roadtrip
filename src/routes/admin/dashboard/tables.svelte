@@ -5,7 +5,7 @@
   import CardBody from "sveltestrap/src/CardBody.svelte";
   import CardHeader from "sveltestrap/src/CardHeader.svelte";
 
-  import Table from "../../components/dashboard/Table.svelte";
+  import Table from "../../../components/dashboard/Table.svelte";
 </script>
 
 <h1 class="mt-4">Tables</h1>

@@ -133,6 +133,7 @@ ul ul,
 ol ul,
 ul ol {
     margin-bottom: 0;
+    list-style: none;
 }
 
 dt {
@@ -177,6 +178,11 @@ a {
     color: #007bff;
     text-decoration: none;
     background-color: transparent;
+    border-bottom: none !important;
+}
+
+.db-link{
+    
 }
 
 a:hover {
