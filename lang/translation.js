@@ -76,7 +76,7 @@ export const fr =
             {
                 add: "Ecrire un nouvel article",
                 list: "Voir tous les articles",
-                last: "Dernières publications",
+                last: " Dernières publications",
                 table: {
                     number: "Numéro",
                     author: "Auteur",
