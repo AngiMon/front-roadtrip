@@ -20,6 +20,9 @@ export const fr =
                     details: "La page que vous essayez de consulter semble disfonctionner, cela est probablement dû à une erreur serveur."
                 },
                 goToHome: "Retour à la page d'acceuil"
+            },
+            action: {
+                continueReading: "Continuer à lire"
             }
         },
         connexion:
@@ -72,8 +75,29 @@ export const fr =
             post:
             {
                 add: "Ecrire un nouvel article",
-                list: "Voir tous les articles"
+                list: "Voir tous les articles",
+                last: "Dernières publications",
+                table: {
+                    number: "Numéro",
+                    author: "Auteur",
+                    location: "Lieu",
+                    title: "Titre"
+                }
             }
+        },
+        month:{
+            "0": "janvier",
+            "1": "février",
+            "2": "mars",
+            "3": "avril",
+            "4": "mai",
+            "5": "juin",
+            "6": "juillet",
+            "7": "août",
+            "8": "septembre",
+            "9": "octobre",
+            "10": "novembre",
+            "11": "décembre"
         }
     }
 }
@@ -93,6 +117,9 @@ export const en =
                     message: "Page not found",
                     details: "The page you are looking for might have been removed had its name changed or is temporarily unavailable."
                 }
+            },
+            action: {
+                continueReading: "Continue Reading"
             }
         },
         connexion:

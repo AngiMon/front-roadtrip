@@ -3,45 +3,59 @@
   import Breadcrumb from "sveltestrap/src/Breadcrumb.svelte";
   import BreadcrumbItem from "sveltestrap/src/BreadcrumbItem.svelte";
   import Card from "sveltestrap/src/Card.svelte";
-  import CardBody from "sveltestrap/src/CardBody.svelte";
-  import CardHeader from "sveltestrap/src/CardHeader.svelte";
-  import CardText from "sveltestrap/src/CardText.svelte";
-  import CardSubtitle from "sveltestrap/src/CardSubtitle.svelte";
-  import Row from "sveltestrap/src/Row.svelte";
-
-  import DashboardCard from "../../../components/dashboard/DashboardCard.svelte";
   import CustomCard from "../../../components/dashboard/CustomCard.svelte";
   import Table from "../../../components/dashboard/Table.svelte";
-  import AreaChart from "../../../components/Charts/AreaChart.svelte";
-  import BarChart from "../../../components/Charts/BarChart.svelte";
   import Navbar from "../../../components/dashboard/Navbar.svelte";
   import Sidebar from "../../../components/dashboard/Sidebar.svelte";
   import Footer from "../../../components/dashboard/Footer.svelte";
   import { fr, en } from '../../../../lang/translation';
   import { _ , locale, dictionary } from 'svelte-i18n';
   import "../../../../static/sb-admin.css";
+  import { onMount } from 'svelte';
+  import { goto } from '@sapper/app';
+  import API from '../../../services/Api';
+
   export let segment;
+  let tableData = [];
+  let tableHeading = ['number', 'author', 'location', 'title'];
+
+
+  function readCookie(name) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0;i < ca.length;i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1,c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+    }
+    return null;
+  }
+
+   onMount(async () => {
+    //user has already a token to dashboard access
+    if(!document.cookie.includes("token_dashboard")){
+      goto('connexion/authentication/login');
+    }else{
+      API.get('/post/all', {}, readCookie("token_dashboard"))
+		.then(data => {
+			if(data != 500 && data != 401){
+        tableData = data;
+			}
+		});
+    }
+  })
 
 	dictionary.set(fr);
   locale.set('fr');
 
-  console.log('dashboard');
-  console.log("segment = " + segment);
-
   let theme = "light";
   let color = "dark"; 
-  let title = $_('app').title;
 
 </script>
 
-<sapper:styles>
-		<!-- <link rel='stylesheet' href='sb-admin.css'> -->
-		<!-- <link rel='stylesheet' href='sass/main.scss'> -->
-
-</sapper:styles>
 {#if segment !== 'pages'}
   <div class="sb-nav-fixed">
-    <Navbar {segment} {color} {title} />
+    <Navbar {color} />
     <div id="layoutSidenav">
       <Sidebar {segment} {theme} />
       <div id="layoutSidenav_content">
@@ -54,8 +68,8 @@
             <Breadcrumb class="mb-4">
               <BreadcrumbItem active>{$_('dashboard').title}</BreadcrumbItem>
             </Breadcrumb>
-            <CustomCard cardTitle="DataTable Example" cardIcon="fas fa-table">
-              <Table />
+            <CustomCard cardTitle={$_("dashboard").post.last} cardIcon="fas fa-table">
+              <Table {tableData} {tableHeading} />
             </CustomCard>
           </Container>
         </main>
@@ -63,9 +77,4 @@
       </div>
     </div>
   </div>
-<!-- {:else}
-  <body>
-    <slot />
-  </body>
-{/if} -->
 {/if}

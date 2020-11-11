@@ -1,35 +1,72 @@
 <script>
-    import { _ } from 'svelte-i18n';
+	import { _, date } from 'svelte-i18n';
+	import { onMount } from 'svelte';
+	import API from '../../services/Api';
+
+	var articles = [];
+
+	onMount(async () => {
+    await API.post('auth/token-delivery', {
+		email: 'admin@toto.fr',
+		password: 'root'
+    })
+      .then(data => {
+		API.get('/post/all', {}, data.token)
+		.then(data => {
+			if(data != 500 && data != 401){
+				articles = data;
+				console.log(articles);
+			}
+		});
+      });
+  	})
 </script>
 <!-- Main -->
 <div id="main">
 
 	<!-- Post -->
-		<article class="post">
-			<header>
-				<div class="title">
-					<h2><a href="single.html">Magna sed adipiscing</a></h2>
-					<p>Lorem ipsum dolor amet nullam consequat etiam feugiat</p>
-				</div>
-				<div class="meta">
-					<time class="published" datetime="2015-11-01">November 1, 2015</time>
-					<a href="toto" class="author"><span class="name">Jane Doe</span><img src="images/avatar.jpg" alt="" /></a>
-				</div>
-			</header>
-			<a href="single.html" class="image featured"><img src="images/pic01.jpg" alt="" /></a>
-			<p>Mauris neque quam, fermentum ut nisl vitae, convallis maximus nisl. Sed mattis nunc id lorem euismod placerat. Vivamus porttitor magna enim, ac accumsan tortor cursus at. Phasellus sed ultricies mi non congue ullam corper. Praesent tincidunt sed tellus ut rutrum. Sed vitae justo condimentum, porta lectus vitae, ultricies congue gravida diam non fringilla.</p>
-			<footer>
-				<ul class="actions">
-					<li><a href="single.html" class="button large">Continue Reading</a></li>
-				</ul>
-				<ul class="stats">
-					<li><a href="toto">General</a></li>
-					<li><a href="toto" class="icon solid fa-heart">28</a></li>
-					<li><a href="toto" class="icon solid fa-comment">128</a></li>
-				</ul>
-			</footer>
-		</article>
-
+	{#if articles.length > 0}
+		{#each articles as article}
+			<article class="post" data-id={article.id}>
+				<header>
+					<div class="title">
+						<h2>
+							<a href="single.html">
+								{article.title}
+							</a>
+						</h2>
+						<p>
+							{ article.location }
+						</p>
+					</div>
+					<div class="meta">
+						<time class="published" datetime={article.createdAt}>
+							{$date(new Date(article.createdAt), { format: 'long' })}
+						</time>
+						<a href="toto" class="author">
+							<span class="name">
+								{article.User.username}
+							</span>
+							<img src="images/avatar.jpg" alt="" />
+						</a>
+					</div>
+				</header>
+				<a href="single.html" class="image featured"><img src="images/pic01.jpg" alt="" /></a>
+				<p>
+					{ article.content }
+				</p>
+				<footer>
+					<ul class="actions">
+						<li><a href="single.html" class="button large">{$_('app').action.continueReading}</a></li>
+					</ul>
+					<ul class="stats">
+						<li><a href="toto" class="icon solid fa-heart">0</a></li>
+						<li><a href="toto" class="icon solid fa-comment">0</a></li>
+					</ul>
+				</footer>
+			</article>
+		{/each}
+	{/if}
 	<!-- Pagination -->
 		<ul class="actions pagination">
 			<li><a href="toto" class="disabled button large previous">{$_("main").page.previous}</a></li>

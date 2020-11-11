@@ -9,14 +9,47 @@
   import Input from "sveltestrap/src/Input.svelte";
   import CustomInput from "sveltestrap/src/CustomInput.svelte";
   import Button from "sveltestrap/src/Button.svelte";
-  import { _ } from 'svelte-i18n';	
+  import { _ } from 'svelte-i18n';
+  import API from '../../../services/Api';
+  import { goto } from '@sapper/app';
+	import { onMount } from 'svelte';
+
+  var loading = true;
+
+  function Submit(){
+    let email = document.getElementsByName('email')[0].value;
+    let password = document.getElementsByName('password')[0].value;
+
+    API.post('auth/token-delivery', {
+      email: 'admin@toto.fr',
+      password: 'root'
+      })
+    .then(data => {
+      if(data != 500 && data != 401){
+          API.post('auth/account/token-delivery', {email: email, password: password}, data.token).then((data) => {
+          document.cookie = "token_dashboard="+data.token;
+          goto('admin/dashboard');
+        })
+      }
+    })
+  }
+  onMount(async () => {
+    //user has already a token to dashboard access
+    if(document.cookie.includes("token_dashboard")){
+      goto('admin/dashboard');
+    }else{
+      loading = false;
+    }
+  })
+  
+
 </script>
 
 <sapper:head>
   <title>{$_('connexion').title}</title>
 </sapper:head>
-
 <div class="col-lg-5">
+{#if !loading }
   <Card class="shadow-lg border-0 rounded-lg mt-5">
     <CardHeader>
       <h3 class="text-center font-weight-light my-4">{$_('connexion').login.title}</h3>
@@ -52,12 +85,13 @@
           <a class="small" href="connexion/authentication/forget_password">
             {$_('connexion').forgotten_password}
           </a>
-          <a class="large button" href="admin/dashboard">{$_('connexion').login.submit}</a>
+          <button role="button" class="large button" on:click|preventDefault={Submit}>{$_('connexion').login.submit}</button>
         </FormGroup>
       </Form>
     </CardBody>
-    <CardFooter class="text-center small">
+    <!-- <CardFooter class="text-center small">
       <a href="connexion/authentication/register">{$_('connexion').need_account}</a>
-    </CardFooter>
+    </CardFooter> -->
   </Card>
+{/if}
 </div>
