@@ -2,28 +2,16 @@
 	import { _, date } from 'svelte-i18n';
 	import { onMount } from 'svelte';
 	import API from '../../services/Api';
+	import PostService from '../../services/post-service';
 
 	var articles = [];
 
 	onMount(async () => {
-    await API.post('auth/token-delivery', {
-		email: 'admin@toto.fr',
-		password: 'root'
-    })
-      .then(data => {
-		API.get('/post/all', {}, data.token)
-		.then(data => {
-			if(data != 500 && data != 401){
-				articles = data;
-				console.log(articles);
-			}
-		});
-      });
-  	})
+		articles = await PostService.getAllPosts();
+	})
 </script>
 <!-- Main -->
 <div id="main">
-
 	<!-- Post -->
 	{#if articles.length > 0}
 		{#each articles as article}
@@ -68,8 +56,8 @@
 		{/each}
 	{/if}
 	<!-- Pagination -->
-		<ul class="actions pagination">
-			<li><a href="toto" class="disabled button large previous">{$_("main").page.previous}</a></li>
-			<li><a href="toto" class="button large next">{$_("main").page.next}</a></li>
-		</ul>
+	<ul class="actions pagination">
+		<li><a href="toto" class="disabled button large previous">{$_("main").page.previous}</a></li>
+		<li><a href="toto" class="button large next">{$_("main").page.next}</a></li>
+	</ul>
 </div>

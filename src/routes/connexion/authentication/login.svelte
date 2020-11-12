@@ -11,6 +11,8 @@
   import Button from "sveltestrap/src/Button.svelte";
   import { _ } from 'svelte-i18n';
   import API from '../../../services/Api';
+  import HeaderService from '../../../services/header-service';
+  import PostService from '../../../services/post-service';
   import { goto } from '@sapper/app';
 	import { onMount } from 'svelte';
 
@@ -20,29 +22,23 @@
     let email = document.getElementsByName('email')[0].value;
     let password = document.getElementsByName('password')[0].value;
 
-    API.post('auth/token-delivery', {
-      email: 'admin@toto.fr',
-      password: 'root'
-      })
-    .then(data => {
-      if(data != 500 && data != 401){
-          API.post('auth/account/token-delivery', {email: email, password: password}, data.token).then((data) => {
+    HeaderService.tokenDeliveryForDashboard(email, password).then(
+      data => {
+        if(data != 500 && data != 401){
           document.cookie = "token_dashboard="+data.token;
           goto('admin/dashboard');
-        })
+        }        
       }
-    })
+    )
   }
   onMount(async () => {
     //user has already a token to dashboard access
-    if(document.cookie.includes("token_dashboard")){
+    if(HeaderService.getTokenDashboard()){
       goto('admin/dashboard');
     }else{
       loading = false;
     }
   })
-  
-
 </script>
 
 <sapper:head>

@@ -14,29 +14,18 @@
   import { onMount } from 'svelte';
   import { goto } from '@sapper/app';
   import API from '../../../services/Api';
+  import CookieMixin from '../../../mixins/cookies-mixin'
 
   export let segment;
   let tableData = [];
   let tableHeading = ['number', 'author', 'location', 'title'];
-
-
-  function readCookie(name) {
-    var nameEQ = name + "=";
-    var ca = document.cookie.split(';');
-    for(var i=0;i < ca.length;i++) {
-        var c = ca[i];
-        while (c.charAt(0)==' ') c = c.substring(1,c.length);
-        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
-    }
-    return null;
-  }
 
    onMount(async () => {
     //user has already a token to dashboard access
     if(!document.cookie.includes("token_dashboard")){
       goto('connexion/authentication/login');
     }else{
-      API.get('/post/all', {}, readCookie("token_dashboard"))
+      API.get('/post/all', {}, CookieMixin.readCookie("token_dashboard"))
 		.then(data => {
 			if(data != 500 && data != 401){
         tableData = data;
