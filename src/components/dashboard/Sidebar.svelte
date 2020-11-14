@@ -60,14 +60,14 @@
                 updateActiveLink($_('dashboard').post.add);
               }}
               class={activeLink === $_('dashboard').post.add ? 'active' : ''}
-              href="dashboard/post/add"
+              href="admin/dashboard/post/add"
               text="{$_('dashboard').post.add}" />
             <SidebarItem
               on:press={() => {
                 updateActiveLink($_('dashboard').post.list);
               }}
               class={activeLink === $_('dashboard').post.list ? 'active' : ''}
-              href="dashboard/post/list"
+              href="admin/dashboard/#toto"
               text="{$_('dashboard').post.list}" />
           </Nav>
         </Collapse>

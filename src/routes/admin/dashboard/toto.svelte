@@ -17,13 +17,13 @@
 
 </script>
 
-<sapper:head>
+<!-- <sapper:head>
   <title>{$_('dashboard').title}</title>
 </sapper:head>
 <h1 class="mt-4">{$_('dashboard').title}</h1>
 <Breadcrumb class="mb-4">
   <BreadcrumbItem active>{$_('dashboard').title}</BreadcrumbItem>
-</Breadcrumb>
+</Breadcrumb> -->
 <CustomCard cardTitle="DataTable Example" cardIcon="fas fa-table">
-  <Table />
+  <!-- <Table /> -->
 </CustomCard>

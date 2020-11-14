@@ -3697,4 +3697,19 @@ input, select, textarea {
 	font-weight: 400;
 	}
 	
-	
+	#dashboard #layoutSidenav_content{
+		top: 0 !important;
+	}
+	#dashboard .breadcrumb-item a:not(.active){
+		color: rgb(0, 162, 255) !important;
+	}
+	#dashboard input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focus, input[type="tel"]:focus, input[type="checkbox"]:focus, select:focus, textarea:focus {
+		border-color: rgb(0, 162, 255) !important;
+	}
+	#dashboard input[type="checkbox"]:focus + label:before, input[type="radio"]:focus + label:before {
+		border-color: rgb(0, 162, 255)!important;
+		box-shadow: none;
+	}
+	#dashboard .row{
+		margin-left: 0 !important;
+	}

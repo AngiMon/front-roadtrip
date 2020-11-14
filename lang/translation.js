@@ -82,7 +82,12 @@ export const fr =
                     author: "Auteur",
                     location: "Lieu",
                     title: "Titre"
-                }
+                },
+                newPost: "Nouvel article",
+                title: "Titre",
+                content: "Contenu",
+                location: "Lieu",
+                geolocation: "Géolocalisation"
             }
         },
         month:{
