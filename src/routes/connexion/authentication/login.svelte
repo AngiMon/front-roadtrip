@@ -13,6 +13,7 @@
   import API from '../../../services/Api';
   import HeaderService from '../../../services/header-service';
   import PostService from '../../../services/post-service';
+  import CookieMixin from '../../../mixins/cookies-mixin';
   import { goto } from '@sapper/app';
 	import { onMount } from 'svelte';
 
@@ -25,16 +26,23 @@
     HeaderService.tokenDeliveryForDashboard(email, password).then(
       data => {
         if(data != 500 && data != 401){
-          document.cookie = "token_dashboard="+data.token;
+          document.cookie = "token_dashboard" +'='+ data.token + '; Path=/';
           goto('admin/dashboard');
         }        
       }
     )
   }
   onMount(async () => {
+    let tokenDashboard = HeaderService.getTokenDashboard();
     //user has already a token to dashboard access
-    if(HeaderService.getTokenDashboard()){
-      goto('admin/dashboard');
+    if(tokenDashboard){
+      HeaderService.tokenVerify(tokenDashboard).then( response => {
+        if(response != null && response.status == 200){
+          goto('admin/dashboard');
+        }else{
+          loading = false;
+        }
+      })
     }else{
       loading = false;
     }
@@ -70,12 +78,6 @@
             id="examplePassword"
             placeholder="Enter password" />
         </FormGroup>
-        <!-- <FormGroup>
-          <CustomInput
-            type="checkbox"
-            id="exampleCustomCheckbox"
-            label="Remember password" />
-        </FormGroup> -->
         <FormGroup
           class="d-flex align-items-center justify-content-between mt-4 mb-0">
           <a class="small" href="connexion/authentication/forget_password">

@@ -9,25 +9,31 @@
   import { onMount } from 'svelte';
   import { goto } from '@sapper/app';
   import API from '../../../services/Api';
+  import PostService from '../../../services/post-service';
   import CookieMixin from '../../../mixins/cookies-mixin'
 
-  export let segment;
-  let tableData = [];
-  let tableHeading = ['number', 'author', 'location', 'title'];
-
-   onMount(async () => {
-     console.log(segment);
-    //user has already a token to dashboard access
-    if(!document.cookie.includes("token_dashboard")){
-      goto('connexion/authentication/login');
-    }else{
-      API.get('/post/all', {}, CookieMixin.readCookie("token_dashboard"))
-		.then(data => {
-			if(data != 500 && data != 401){
-        tableData = data;
-			}
-		});
+  let dataTable = {
+        columns:['id', 'author', 'location', 'title', 'published'],
+        rows:[]
     }
+
+  onMount(async () => {
+    API.get('/post/all', {}, CookieMixin.readCookie("token_dashboard")).then(
+      data => {
+        if(data != 500 && data != 401){
+          let rows = []
+
+          data.forEach(element => {
+              element.author = element.User.username;
+              element.published = element.published ? '<i class="fas fa-check online"></i>' : '<i class="fas fa-times offline"></i>'
+              rows.push(element);
+              
+          });
+
+          dataTable.rows = rows;
+        }
+      }
+    );
   })
 
 	dictionary.set(fr);
@@ -38,5 +44,5 @@
   <BreadcrumbItem active>{$_('dashboard').title}</BreadcrumbItem>
 </Breadcrumb>
 <CustomCard cardTitle={$_("dashboard").post.last} cardIcon="fas fa-table">
-  <Table {tableData} {tableHeading} />
+  <Table {dataTable} />
 </CustomCard>

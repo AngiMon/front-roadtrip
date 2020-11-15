@@ -3710,6 +3710,51 @@ input, select, textarea {
 		border-color: rgb(0, 162, 255)!important;
 		box-shadow: none;
 	}
+	#dashboard button{
+		border-radius: 3px;
+	}
+	#dashboard button:hover{
+		box-shadow:none;
+		color:  #fff;
+	}
 	#dashboard .row{
 		margin-left: 0 !important;
+	}
+	#dashboard .online{
+		color:green;
+	}
+	#dashboard .offline{
+		color:red;
+	}
+	#dashboard .dt-table{
+		height: auto !important;
+	}
+	#dashboard .datatable.scroll-y.svelte-1ic2ilv.svelte-1ic2ilv {
+		height: auto !important;
+	}
+	#dashboard .dt-table{
+		margin-top: 30px !important;
+	}
+	#dashboard .dt-table th{
+		font-weight: bold;
+		padding: 14px;
+	}
+	#dashboard .dt-pagination-buttons button{
+		padding: 10px !important;
+		line-height:normal !important;
+		height: auto !important;
+		border-color:  rgb(0, 162, 255)!important;
+	}
+	#dashboard .dt-pagination-buttons button:hover, #dashboard .dt-pagination-buttons button.active, #dashboard .dt-pagination-buttons button.focus{
+		color: rgb(0, 162, 255);
+		border: 1px solid rgb(0, 162, 255);
+	}
+	#dashboard .section.svelte-1oaz6rg, .dt-pagination{
+		height: auto !important;
+	}
+	#dashboard .dt-pagination-buttons {
+		display: block !important;
+	}
+	.dt-pagination-rowcount{
+		font-size: 15px !important;
 	}

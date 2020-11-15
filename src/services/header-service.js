@@ -4,13 +4,17 @@ import { stores } from '@sapper/app';
 
 var admin_email, admin_password;
 
-const tokenDelivery = () => {
+const subscribeSession = () => {
     const { session } = stores();
 
     session.subscribe(value => {
         admin_email = value.ADMIN_EMAIL;
         admin_password = value.ADMIN_PASSWORD;
     });
+}
+
+const tokenDelivery = () => {
+    
     
     return API.post('auth/token-delivery', {
             email: admin_email,
@@ -26,11 +30,24 @@ const tokenDeliveryForDashboard = async (email, password) =>{
         token
     )
 }
+const tokenVerify = (token) => {
+    return API.post('/token-verify', {token: token});
+}
 const getTokenAnonymous = async () => {
+    subscribeSession();
     let cookie = CookieMixin.readCookie("token_anonymous");
-
+    
     if(cookie){
-        return cookie
+        return await tokenVerify(cookie).then(async response =>{
+            if(response.status == 200){
+                return cookie;
+            }else{
+                return await tokenDelivery().then( data => {
+                    CookieMixin.setCookie = ("token_anonymous", data.token);
+                    return data.token;
+                 })
+            } 
+        })
     }else{
         return await tokenDelivery().then( data => {
            document.cookie = "token_anonymous="+data.token;
@@ -46,7 +63,8 @@ const HeaderService = {
     tokenDelivery,
     tokenDeliveryForDashboard,
     getTokenAnonymous,
-    getTokenDashboard
+    getTokenDashboard,
+    tokenVerify
 }
 
 export default HeaderService;

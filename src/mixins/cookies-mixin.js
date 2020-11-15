@@ -8,10 +8,23 @@ const readCookie = (name) => {
                 return c.substring(nameEQ.length,c.length);
     }
     return null;
-  }
+}
 
-const CookieMixin = {
-    readCookie
+const deleteCookie = (name) => {
+    document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    return null;
+}
+
+function setCookie (name, value) {
+    console.log('titi');
+    document.cookie = name +'='+ value + '; Path=/';
+    return null;
+}
+
+const CookieMixin={
+    readCookie,
+    deleteCookie,
+    setCookie
 }
 
 export default CookieMixin;

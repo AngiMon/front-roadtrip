@@ -67,8 +67,8 @@
                 updateActiveLink($_('dashboard').post.list);
               }}
               class={activeLink === $_('dashboard').post.list ? 'active' : ''}
-              href="admin/dashboard/#toto"
-              text="{$_('dashboard').post.list}" />
+              href="admin/dashboard/post/manager"
+              text="{$_('dashboard').post.all}" />
           </Nav>
         </Collapse>
 

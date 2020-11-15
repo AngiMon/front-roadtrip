@@ -2,26 +2,25 @@
   import Table from "sveltestrap/src/Table.svelte";
   import { _ } from 'svelte-i18n';
 
-  export let tableHeading;
-  export let tableData;
+  export let dataTable;
 </script>
 
 <Table bordered responsive>
   <thead>
     <tr>
-      {#each tableHeading as heading}
+      {#each dataTable.columns as heading}
         <th>{$_("dashboard").post.table[heading]}</th>
       {/each}
     </tr>
   </thead>
   <tbody>
-
-    {#each tableData as data}
+    {#each dataTable.rows as data}
       <tr>
-        <th scope="row">#{data.id}</th>
-        <td>{data.User.username}</td>
-        <td>{data.location}</td>
-        <td>{data.title}</td>
+        {#each dataTable.columns as key}
+          <td>
+            {@html data[key]}
+          </td>
+        {/each}
       </tr>
     {/each}
   </tbody>

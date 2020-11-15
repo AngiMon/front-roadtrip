@@ -22,7 +22,9 @@ export const fr =
                 goToHome: "Retour à la page d'acceuil"
             },
             action: {
-                continueReading: "Continuer à lire"
+                continueReading: "Continuer à lire",
+                validate_send: "Valider et publier",
+                saveDraft:"Enregistrer comme brouillon"
             }
         },
         connexion:
@@ -74,14 +76,16 @@ export const fr =
             },
             post:
             {
-                add: "Ecrire un nouvel article",
-                list: "Voir tous les articles",
+                add: "Ecrire un article",
+                manager: "Gestionnaire des publications",
+                all: "Gestionnaire",
                 last: " Dernières publications",
                 table: {
-                    number: "Numéro",
+                    id: "Numéro",
                     author: "Auteur",
                     location: "Lieu",
-                    title: "Titre"
+                    title: "Titre",
+                    published: "En ligne"
                 },
                 newPost: "Nouvel article",
                 title: "Titre",

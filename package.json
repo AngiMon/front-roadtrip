@@ -43,6 +43,7 @@
     "sapper": "^0.27.13",
     "svelte": "^3.18.1",
     "svelte-i18n": "^3.0.4",
-    "svelte-preprocess": "^4.0.8"
+    "svelte-preprocess": "^4.0.8",
+    "svelte-simple-datatables": "^0.1.24"
   }
 }
