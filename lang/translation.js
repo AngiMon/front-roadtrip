@@ -24,7 +24,13 @@ export const fr =
             action: {
                 continueReading: "Continuer à lire",
                 validate_send: "Valider et publier",
-                saveDraft:"Enregistrer comme brouillon"
+                saveDraft:"Enregistrer comme brouillon",
+                edit:"Modifier",
+                activeEdit:"Activer la modification",
+                delete:"Supprimer",
+                publish:"Publier",
+                unpublish:"Dépublier",
+                save:"Enregistrer"
             }
         },
         connexion:

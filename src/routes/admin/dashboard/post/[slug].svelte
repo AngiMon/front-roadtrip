@@ -6,23 +6,17 @@
 	}
 </script>
 <script>
-    
     import FormPost from '../../../../components/dashboard/post/FormPost.svelte';
     import PostManager from "../../../../components/dashboard/post/PostManager.svelte";
     import PostService from '../../../../services/post-service';
-    import { onMount } from 'svelte';
     import { _ } from 'svelte-i18n';
 
     export let slug;
     export let segment;
-    
+
     let data;
     let loading = true;
 
-    onMount( async() =>{
-      //console.log(slug);
-     
-    })
 </script>
 {#if slug == "add" || !isNaN(slug)}
     <FormPost {slug} />

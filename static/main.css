@@ -3758,3 +3758,9 @@ input, select, textarea {
 	.dt-pagination-rowcount{
 		font-size: 15px !important;
 	}
+	input[readonly]:hover, textarea[readonly]:hover{
+		cursor: not-allowed;
+	}
+	input[readonly], textarea[readonly]{
+		background-color:#e2e2e2
+	}

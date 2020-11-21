@@ -47,29 +47,26 @@
         init();
     });
 
-    const SubmitAndPublish = () => {
-        let newPost = new Post(post.title, post.location, post.content, true);
-        PostService.addPost(newPost).then( 
-            response => {
-                if(response.status == 409){
-                    goto('connexion/authentication/login');
-                }else{
-                    goto('admin/dashboard');
-                }
-            }
-        );
+    const SubmitAndPublish = async (param) => {
+        post.published = param.publishable;
+        let currentPost = isNaN(slug) ? new Post(post.title, post.location, post.content, post.published) : post;
+        let response = isNaN(slug) ? await PostService.addPost(currentPost) : await PostService.updatePost(currentPost, slug)
+
+        if(response.status == 409){
+            goto('connexion/authentication/login');
+        }else{
+            goto('admin/dashboard');
+        }
     }
-    const SubmitAsDraft = () => {
-        let newPost = new Post(post.title, post.location, post.content);
-        PostService.addPost(newPost).then( 
-            response => {
-                if(response.status == 409){
-                    goto('connexion/authentication/login');
-                }else{
-                    goto('admin/dashboard');
-                }
-            }
-        );
+
+    const Delete = async () => {
+        const response = await PostService.deletePost(slug);
+
+        if(response.status == 409){
+            goto('connexion/authentication/login');
+        }else{
+            goto('admin/dashboard');
+        }
     }
 
 </script>
@@ -83,6 +80,23 @@
     </Breadcrumb>
 
     <CustomCard cardTitle={isNaN(slug) ? $_("dashboard").post.newPost : $_("dashboard").post.consult} cardIcon="fas fa-feather">
+        {#if !isNaN(slug)}
+            {#if readOnly}
+                <button 
+                    class="btn-secondary mb-3"
+                    on:click={ () => { readOnly = false }}
+                >
+                    {$_('app').action.activeEdit}
+                </button>
+            {:else}
+                    <button 
+                    class="btn-primary mb-3"
+                    on:click={ () => {SubmitAndPublish({publishable:post.published})} }
+                >
+                    {$_('app').action.save}
+                </button>
+            {/if}
+        {/if}
         <div class="form-group">
             <input 
                 class="col-12 form-input" 
@@ -103,7 +117,7 @@
                 readonly={readOnly} 
             >
             <div class="form-group col-6">
-                <input class="form-checkbox" type="checkbox" id="geolocation" name="geolocation" disabled={readOnly} >
+                <input class="form-checkbox" type="checkbox" id="geolocation" name="geolocation" readonly={readOnly} disabled={readOnly} >
                 <label for="geolocation">
                     <i class="fas fa-map-marker-alt"></i>
                 </label>
@@ -120,18 +134,42 @@
             ></textarea>
         </div>
         <div class="form-group">
+        {#if isNaN(slug)}
             <button 
                 class="btn-success"
-                on:click={SubmitAndPublish}
+                on:click={() =>{SubmitAndPublish({publishable: true})}}
             >
                 {$_('app').action.validate_send}
             </button>
             <button 
                 class="btn-info"
-                on:click={SubmitAsDraft}
+                on:click={() =>{SubmitAndPublish({publishable: false})}}
             >
                 {$_('app').action.saveDraft}
             </button>
+        {:else}
+            {#if post.published}
+                <button 
+                    class="btn-warning"
+                    on:click={() =>{SubmitAndPublish({publishable: false})}}
+                >
+                    {$_('app').action.unpublish}
+                </button>
+            {:else}
+                <button 
+                    class="btn-success"
+                    on:click={() =>{SubmitAndPublish({publishable: true})}}
+                >
+                    {$_('app').action.validate_send}
+                </button>
+            {/if}
+            <button 
+                class="btn-danger"
+                on:click={Delete}
+            >
+                {$_('app').action.delete}
+            </button>
+        {/if}
         </div>
     </CustomCard>
 {/if}
