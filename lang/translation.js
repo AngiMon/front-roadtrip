@@ -78,6 +78,7 @@ export const fr =
             {
                 add: "Ecrire un article",
                 manager: "Gestionnaire des publications",
+                consult: "Consultation d'un article",
                 all: "Gestionnaire",
                 last: " Dernières publications",
                 table: {

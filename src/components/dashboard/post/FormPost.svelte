@@ -1,16 +1,55 @@
 <script>
+    import Breadcrumb from "sveltestrap/src/Breadcrumb.svelte";
+    import BreadcrumbItem from "sveltestrap/src/BreadcrumbItem.svelte";
     import CustomCard from "../CustomCard.svelte";
     import Post from "../../../models/Post";
     import PostService from "../../../services/post-service"
     import { _ } from 'svelte-i18n';
     import { goto } from '@sapper/app';
+    import { onMount } from 'svelte';
 
-    let post, title, content, location;
-    //export let post; //TODO for update post
+    export let slug;
+
+    let post;
+    let readOnly = false;
+    let loading = true;
+    let author;
+
+    $: {
+        checkSlug(slug);
+    }
+
+    const init = async () => {
+        post = {
+            title : "",
+            content : "",
+            location : "",
+            published : false
+        }
+
+        if(!isNaN(slug)){
+            let postData = await PostService.getOnePost(slug);
+            post = postData.post;
+            author = postData.author;
+            readOnly = true;
+            loading = false;
+      }else{
+        loading = false;
+        readOnly = false;
+      }
+    }
+
+    const checkSlug = (slug) => {
+        init();
+    }
+
+    onMount( async () => {
+        init();
+    });
 
     const SubmitAndPublish = () => {
-        post = new Post(title, location, content, true);
-        PostService.addPost(post).then( 
+        let newPost = new Post(post.title, post.location, post.content, true);
+        PostService.addPost(newPost).then( 
             response => {
                 if(response.status == 409){
                     goto('connexion/authentication/login');
@@ -21,8 +60,8 @@
         );
     }
     const SubmitAsDraft = () => {
-        post = new Post(title, location, content);
-        PostService.addPost(post).then( 
+        let newPost = new Post(post.title, post.location, post.content);
+        PostService.addPost(newPost).then( 
             response => {
                 if(response.status == 409){
                     goto('connexion/authentication/login');
@@ -34,52 +73,65 @@
     }
 
 </script>
-<CustomCard cardTitle={$_("dashboard").post.newPost} cardIcon="fas fa-feather">
-    <div class="form-group">
-        <input 
-            class="col-12 form-input" 
-            name="title" 
-            placeholder={$_("dashboard").post.title} 
-            type="text"
-            bind:value={title}    
-        >        
-    </div>
-    <div class="row">
-        <input 
-            class="col-6 form-input" 
-            name="location" 
-            placeholder={$_("dashboard").post.location} 
-            type="text"
-            bind:value={location}    
-        >
-        <div class="form-group col-6">
-            <input class="form-checkbox" type="checkbox" id="geolocation" name="geolocation">
-            <label for="geolocation">
-                <i class="fas fa-map-marker-alt"></i>
-            </label>
+
+{#if !loading}
+    <Breadcrumb class="mb-4">
+    <BreadcrumbItem>
+        <a href="/admin/dashboard">{$_('dashboard').title}</a>
+    </BreadcrumbItem>
+    <BreadcrumbItem active>{isNaN(slug) ? $_('dashboard').post[slug] : post.title}</BreadcrumbItem>
+    </Breadcrumb>
+
+    <CustomCard cardTitle={isNaN(slug) ? $_("dashboard").post.newPost : $_("dashboard").post.consult} cardIcon="fas fa-feather">
+        <div class="form-group">
+            <input 
+                class="col-12 form-input" 
+                name="title" 
+                placeholder={$_("dashboard").post.title} 
+                type="text"
+                bind:value={post.title}
+                readonly={readOnly}   
+            >        
         </div>
-    </div>
-    <div class="form-group">
-        <textarea 
-            class="col-12 form-input" 
-            name="content" 
-            placeholder={$_("dashboard").post.content} 
-            type="text"
-            bind:value={content}
-        ></textarea>
-    </div>
-    <div class="form-group">
-        <button 
-            class="btn-success"
-            on:click={SubmitAndPublish}
-        >
-            {$_('app').action.validate_send}
-        </button>
-        <button 
-            class="btn-info"
-            on:click={SubmitAsDraft}
-        >
-            {$_('app').action.saveDraft}
-        </button>
-    </div>
-</CustomCard>
+        <div class="row">
+            <input 
+                class="col-6 form-input" 
+                name="location" 
+                placeholder={$_("dashboard").post.location} 
+                type="text"
+                bind:value={post.location}
+                readonly={readOnly} 
+            >
+            <div class="form-group col-6">
+                <input class="form-checkbox" type="checkbox" id="geolocation" name="geolocation" disabled={readOnly} >
+                <label for="geolocation">
+                    <i class="fas fa-map-marker-alt"></i>
+                </label>
+            </div>
+        </div>
+        <div class="form-group">
+            <textarea 
+                class="col-12 form-input" 
+                name="content" 
+                placeholder={$_("dashboard").post.content} 
+                type="text"
+                bind:value={post.content}
+                readonly={readOnly} 
+            ></textarea>
+        </div>
+        <div class="form-group">
+            <button 
+                class="btn-success"
+                on:click={SubmitAndPublish}
+            >
+                {$_('app').action.validate_send}
+            </button>
+            <button 
+                class="btn-info"
+                on:click={SubmitAsDraft}
+            >
+                {$_('app').action.saveDraft}
+            </button>
+        </div>
+    </CustomCard>
+{/if}

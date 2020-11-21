@@ -16,7 +16,6 @@ const deleteCookie = (name) => {
 }
 
 function setCookie (name, value) {
-    console.log('titi');
     document.cookie = name +'='+ value + '; Path=/';
     return null;
 }

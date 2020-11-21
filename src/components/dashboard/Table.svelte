@@ -1,27 +1,34 @@
 <script>
   import Table from "sveltestrap/src/Table.svelte";
   import { _ } from 'svelte-i18n';
+  import { Datatable, rows } from 'svelte-simple-datatables';
+  import { goto } from '@sapper/app';
 
-  export let dataTable;
+  export let columns;
+  export let data;
+  export let settings;
+
+  const Read = (id) => {
+    goto('admin/dashboard/post/' + id)
+  }
+
 </script>
 
-<Table bordered responsive>
+<Datatable {settings} {data}>
   <thead>
-    <tr>
-      {#each dataTable.columns as heading}
-        <th>{$_("dashboard").post.table[heading]}</th>
+      <tr>
+      {#each columns as heading}
+          <th>{$_("dashboard").post.table[heading]}</th>
       {/each}
-    </tr>
+      </tr>
   </thead>
   <tbody>
-    {#each dataTable.rows as data}
-      <tr>
-        {#each dataTable.columns as key}
-          <td>
-            {@html data[key]}
-          </td>
-        {/each}
+      {#each $rows as row}
+      <tr on:click={Read(row['id'])}>
+          {#each columns as heading}
+              <td>{@html row[heading]}</td>
+          {/each}
       </tr>
-    {/each}
+      {/each}
   </tbody>
-</Table>
+</Datatable>

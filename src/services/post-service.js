@@ -17,9 +17,15 @@ const addPost = (post) => {
     return API.post('/post/add', post, tokenDashboard);
 }
 
+const getOnePost = async (id) => {
+    var token = await HeaderService.getTokenAnonymous();
+    return API.get('/post/' + id, {}, token);
+}
+
 const PostService={
     getAllPosts,
-    addPost
+    addPost,
+    getOnePost
 }
 
 export default PostService;

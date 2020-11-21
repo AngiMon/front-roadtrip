@@ -36,13 +36,8 @@
     let tokenDashboard = HeaderService.getTokenDashboard();
     //user has already a token to dashboard access
     if(tokenDashboard){
-      HeaderService.tokenVerify(tokenDashboard).then( response => {
-        if(response != null && response.status == 200){
-          goto('admin/dashboard');
-        }else{
-          loading = false;
-        }
-      })
+      let response = await HeaderService.tokenVerify(tokenDashboard);
+      response.status == 200 ? goto('admin/dashboard') : loading = false;
     }else{
       loading = false;
     }

@@ -6,26 +6,26 @@
 	}
 </script>
 <script>
-    import Breadcrumb from "sveltestrap/src/Breadcrumb.svelte";
-    import BreadcrumbItem from "sveltestrap/src/BreadcrumbItem.svelte";
+    
     import FormPost from '../../../../components/dashboard/post/FormPost.svelte';
     import PostManager from "../../../../components/dashboard/post/PostManager.svelte";
+    import PostService from '../../../../services/post-service';
+    import { onMount } from 'svelte';
     import { _ } from 'svelte-i18n';
 
     export let slug;
+    export let segment;
+    
+    let data;
+    let loading = true;
 
-    let post;
-
+    onMount( async() =>{
+      //console.log(slug);
+     
+    })
 </script>
-<Breadcrumb class="mb-4">
-  <BreadcrumbItem>
-    <a href="/admin/dashboard">{$_('dashboard').title}</a>
-  </BreadcrumbItem>
-  <BreadcrumbItem active>{$_('dashboard').post[slug]}</BreadcrumbItem>
-</Breadcrumb>
-
-{#if slug == "add"}
-    <FormPost {post} />
+{#if slug == "add" || !isNaN(slug)}
+    <FormPost {slug} />
 {:else if slug == "manager"}
     <PostManager />
 {/if}
