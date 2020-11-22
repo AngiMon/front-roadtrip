@@ -32,7 +32,9 @@
 
             try{
                 ckEditor = await ClassicEditor.create( document.getElementById('editor'), {
-				
+				ckfinder: {
+                    uploadUrl: '/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files&responseType=json',
+                },
 				toolbar: {
 					items: [
 						'heading',

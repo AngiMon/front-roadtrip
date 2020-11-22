@@ -40,10 +40,14 @@
 							</a>
 						</div>
 					</header>
-					<a href="single.html" class="image featured"><img src="images/pic01.jpg" alt="" /></a>
-					<p>
-						{@html article.content }
-					</p>
+					<!-- <a href="single.html" class="image featured">
+						<img src="images/pic01.jpg" alt="" />
+					</a> -->
+					<div class="ck ck-reset ck-editor ck-rounded-corners">
+						<div class="ck-contentck-blurred ck ck-content ck-editor__editable ck-rounded-corners ck-editor__editable_inline">
+							{@html article.content }
+						</div>
+					</div>
 					<footer>
 						<ul class="actions">
 							<li><a href="single.html" class="button large">{$_('app').action.continueReading}</a></li>
