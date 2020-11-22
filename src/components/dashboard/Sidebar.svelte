@@ -8,6 +8,9 @@
   export let theme;
   
   $: sidenav_theme = `sb-sidenav-${theme}`;
+  $: {
+        checkSegment(segment);
+    }
 
   let color;
   let isLayoutOpen = false;
@@ -30,8 +33,14 @@
     (isLayoutOpen === true) ? isLayoutOpen = false : isLayoutOpen = true;
   };
 
-</script>
+  const checkSegment = (segment) => {
+    if(segment != "post"){
+      isPostsOpen = false;
+      activeLink = "Dashboard";
+    }
+  }
 
+</script>
 <div id="layoutSidenav_nav" class="sb-nav-fixed">
   <Nav
     class="sb-sidenav {sidenav_theme} accordion sb-nav-fixed"

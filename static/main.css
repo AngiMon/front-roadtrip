@@ -3755,6 +3755,10 @@ input, select, textarea {
 	#dashboard .dt-pagination-buttons {
 		display: block !important;
 	}
+	#dashboard tr:hover{
+		cursor: pointer;
+		background-color: rgb(235, 230, 230);
+	}
 	.dt-pagination-rowcount{
 		font-size: 15px !important;
 	}
@@ -3763,4 +3767,13 @@ input, select, textarea {
 	}
 	input[readonly], textarea[readonly]{
 		background-color:#e2e2e2
+	}
+	#dashboard .ck-content{
+		height: 500px;
+	}
+	.media{
+		display: block;
+	}
+	.post svg{
+		display: none
 	}

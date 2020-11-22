@@ -13,6 +13,7 @@
 
     export let slug;
     export let segment;
+    segment = segment;
 
     let data;
     let loading = true;

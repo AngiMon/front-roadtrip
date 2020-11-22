@@ -42,7 +42,7 @@
 					</header>
 					<a href="single.html" class="image featured"><img src="images/pic01.jpg" alt="" /></a>
 					<p>
-						{ article.content }
+						{@html article.content }
 					</p>
 					<footer>
 						<ul class="actions">

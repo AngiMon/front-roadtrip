@@ -7,22 +7,87 @@
     import { _ } from 'svelte-i18n';
     import { goto } from '@sapper/app';
     import { onMount } from 'svelte';
+    
+    //import Base64UploadAdapter from '@ckeditor/ckeditor5-upload/src/adapters/base64uploadadapter';
 
     export let slug;
 
     let post;
-    let readOnly = false;
+    let readOnly;
     let loading = true;
     let author;
+    let ClassicEditor;
+    let ckEditor;
 
-    $: {
-        checkSlug(slug);
+    $: checkSlug(slug);
+    $: initCkEditor(readOnly)
+    
+
+    const initCkEditor = async (readOnly) => {
+        if(readOnly === false){
+            const module = await import('../../../plugins/ckeditor/build/ckeditor');
+            ClassicEditor = module.default;
+            ckEditor != undefined ? ckEditor.destroy() : undefined;
+            ckEditor = undefined;
+
+            try{
+                ckEditor = await ClassicEditor.create( document.getElementById('editor'), {
+				
+				toolbar: {
+					items: [
+						'heading',
+						'|',
+						'bold',
+						'italic',
+						'link',
+						'bulletedList',
+						'numberedList',
+						'|',
+						'indent',
+						'outdent',
+						'|',
+						'imageUpload',
+						'blockQuote',
+						'insertTable',
+						'mediaEmbed',
+						'undo',
+						'redo',
+						'horizontalLine',
+						'fontColor',
+						'code',
+						'imageInsert',
+						'CKFinder'
+					]
+				},
+				language: 'fr',
+				image: {
+					toolbar: [
+						'imageTextAlternative',
+						'imageStyle:full',
+						'imageStyle:side',
+						'linkImage'
+					]
+				},
+				table: {
+					contentToolbar: [
+						'tableColumn',
+						'tableRow',
+						'mergeTableCells'
+					]
+				},
+				licenseKey: '',
+				
+			});
+                document.querySelector(".ck-content").ckeditorInstance.setData(post.content)
+            } catch( error) {
+                    console.error( error );
+            }
+        }
     }
-
     const init = async () => {
         post = {
             title : "",
-            content : "",
+            content : "<p></p>",
             location : "",
             published : false
         }
@@ -33,10 +98,12 @@
             author = postData.author;
             readOnly = true;
             loading = false;
-      }else{
-        loading = false;
-        readOnly = false;
-      }
+        }else{
+            loading = false;
+            readOnly = false;
+        }
+
+        initCkEditor(readOnly);        
     }
 
     const checkSlug = (slug) => {
@@ -49,6 +116,8 @@
 
     const SubmitAndPublish = async (param) => {
         post.published = param.publishable;
+        post.content = ckEditor === undefined ? post.content : document.querySelector(".ck-content").innerHTML;
+        console.log(post.content);
         let currentPost = isNaN(slug) ? new Post(post.title, post.location, post.content, post.published) : post;
         let response = isNaN(slug) ? await PostService.addPost(currentPost) : await PostService.updatePost(currentPost, slug)
 
@@ -60,12 +129,16 @@
     }
 
     const Delete = async () => {
-        const response = await PostService.deletePost(slug);
+        let confirm = window.confirm("Etes-vous sûr de vouloir supprimer cet article définitivement ?");
+        
+        if(confirm){
+            const response = await PostService.deletePost(slug);
 
-        if(response.status == 409){
-            goto('connexion/authentication/login');
-        }else{
-            goto('admin/dashboard');
+            if(response.status == 409){
+                goto('connexion/authentication/login');
+            }else{
+                goto('admin/dashboard');
+            }
         }
     }
 
@@ -73,10 +146,10 @@
 
 {#if !loading}
     <Breadcrumb class="mb-4">
-    <BreadcrumbItem>
-        <a href="/admin/dashboard">{$_('dashboard').title}</a>
-    </BreadcrumbItem>
-    <BreadcrumbItem active>{isNaN(slug) ? $_('dashboard').post[slug] : post.title}</BreadcrumbItem>
+        <BreadcrumbItem>
+            <a href="/admin/dashboard">{$_('dashboard').title}</a>
+        </BreadcrumbItem>
+        <BreadcrumbItem active>{isNaN(slug) ? $_('dashboard').post[slug] : post.title}</BreadcrumbItem>
     </Breadcrumb>
 
     <CustomCard cardTitle={isNaN(slug) ? $_("dashboard").post.newPost : $_("dashboard").post.consult} cardIcon="fas fa-feather">
@@ -125,6 +198,7 @@
         </div>
         <div class="form-group">
             <textarea 
+                id="editor"
                 class="col-12 form-input" 
                 name="content" 
                 placeholder={$_("dashboard").post.content} 
@@ -134,42 +208,42 @@
             ></textarea>
         </div>
         <div class="form-group">
-        {#if isNaN(slug)}
-            <button 
-                class="btn-success"
-                on:click={() =>{SubmitAndPublish({publishable: true})}}
-            >
-                {$_('app').action.validate_send}
-            </button>
-            <button 
-                class="btn-info"
-                on:click={() =>{SubmitAndPublish({publishable: false})}}
-            >
-                {$_('app').action.saveDraft}
-            </button>
-        {:else}
-            {#if post.published}
-                <button 
-                    class="btn-warning"
-                    on:click={() =>{SubmitAndPublish({publishable: false})}}
-                >
-                    {$_('app').action.unpublish}
-                </button>
-            {:else}
+            {#if isNaN(slug)}
                 <button 
                     class="btn-success"
                     on:click={() =>{SubmitAndPublish({publishable: true})}}
                 >
                     {$_('app').action.validate_send}
                 </button>
+                <button 
+                    class="btn-info"
+                    on:click={() =>{SubmitAndPublish({publishable: false})}}
+                >
+                    {$_('app').action.saveDraft}
+                </button>
+            {:else}
+                {#if post.published}
+                    <button 
+                        class="btn-warning"
+                        on:click={() =>{SubmitAndPublish({publishable: false})}}
+                    >
+                        {$_('app').action.unpublish}
+                    </button>
+                {:else}
+                    <button 
+                        class="btn-success"
+                        on:click={() =>{SubmitAndPublish({publishable: true})}}
+                    >
+                        {$_('app').action.validate_send}
+                    </button>
+                {/if}
+                <button 
+                    class="btn-danger"
+                    on:click={Delete}
+                >
+                    {$_('app').action.delete}
+                </button>
             {/if}
-            <button 
-                class="btn-danger"
-                on:click={Delete}
-            >
-                {$_('app').action.delete}
-            </button>
-        {/if}
         </div>
     </CustomCard>
 {/if}

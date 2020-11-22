@@ -12,6 +12,8 @@
     "test": "run-p --race dev cy:run"
   },
   "dependencies": {
+    "@ckeditor/ckeditor5-build-classic": "^23.1.0",
+    "@ckeditor/ckeditor5-upload": "^23.1.0",
     "autoprefixer": "^9.8.4",
     "axios": "^0.21.0",
     "bootstrap": "^4.5.3",
